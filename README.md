@@ -41,21 +41,56 @@ The AI industry currently faces a "Benchmark Gap":
 
 ## The Solution: A Mathematical Lens
 Using a rigorous approach rooted in **Mathematics and Computer Science**, LLM Efficiency Lens provides:
-* **Automated Log Parsing**: Converts complex MLPerf summary/detail logs into structured data.
-* **Pareto Optimization**: Visualizes the optimal frontier where performance meets cost-efficiency.
-* **Economic Forecasting**: Maps inference benchmarks to real-world cloud pricing metadata.
-* **Community Intelligence**: A shared, open-source database of hardware performance-to-cost ratios.
+1. **Automated Log Parsing**: Converts complex MLPerf summary/detail logs into structured data.
+2. **Pareto Optimization**: Visualizes the optimal frontier where performance meets cost-efficiency.
+3. **Economic Forecasting**: Maps inference benchmarks to real-world cloud pricing metadata.
+4. **Community Intelligence**: A shared, open-source database of hardware performance-to-cost ratios.
 
 ---
+Quick Start & Run Analysis
+1. Install Dependencies
+Ensure you have Python 3.10+ installed, then run:
+pip install -r requirements.txt
 
+2. Perform Economic Analysis
+Correlate your benchmark results with cloud costs using the built-in analyzer:
+
+## from src.parser.analyzer import EfficiencyAnalyzer
+
+# Initialize with the metadata database
+analyzer = EfficiencyAnalyzer(pricing_path="metadata/cloud_pricing.json")
+
+# Correlate 4500.5 Tokens/Sec with Lambda Labs H100 pricing
+report = analyzer.calculate_economics(
+    throughput_tps=4500.5, 
+    provider="lambda_labs", 
+    gpu_instance="h100_pcie"
+)
+
+print(f"Analysis for: {report['config']}")
+print(f"Tokens per Dollar: {report['tokens_per_dollar']}")
+print(f"Cost per 1M Tokens: ${report['cost_per_1m_tokens_usd']}")
+
+---
+Roadmap
+[ ] Phase 1 (March 2026): Finalize vLLM/MLPerf automated log ingestion.
+
+[ ] Phase 2 (May 2026): Launch Streamlit Dashboard for Pareto Frontier visualization.
+
+[ ] Phase 3 (July 2026): Add support for TensorRT-LLM and TGI engines.
+
+[ ] Phase 4: Community-driven hardware pricing API integration.
+
+
+---
 ##  Community & Contribution
 This project is in active development as part of an M.Sc. thesis and a proposal for Open Source Summit India 2026. We welcome the community to join us:
 
-Add Pricing: Submit a PR with updated pricing for cloud or on-prem hardware.
+1. Add Pricing: Submit a PR with updated pricing for cloud or on-prem hardware.
 
-New Parsers: Help us support TGI, TRT-LLM, or other inference backends.
+2. New Parsers: Help us support TGI, TRT-LLM, or other inference backends.
 
-Fix Bugs: Open an issue if you find an edge case in log parsing.
+3. Fix Bugs: Open an issue if you find an edge case in log parsing.
 
 ---
 
